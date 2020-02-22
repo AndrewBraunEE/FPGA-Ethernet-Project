@@ -25,7 +25,7 @@ THE SOFTWARE.
  * ARP cache
  */
 module arp_cache #(
-    parameter CACHE_ADDR_WIDTH = 9
+    parameter CACHE_ADDR_WIDTH = 9 //Why is this 9?
 )
 (
     input  wire        clk,
@@ -42,7 +42,6 @@ module arp_cache #(
     input  wire        query_response_ready,
     output wire        query_response_error,
     output wire [47:0] query_response_mac,
-
     /*
      * Cache write
      */
@@ -50,7 +49,6 @@ module arp_cache #(
     output wire        write_request_ready,
     input  wire [31:0] write_request_ip,
     input  wire [47:0] write_request_mac,
-
     /*
      * Configuration
      */
@@ -93,7 +91,6 @@ assign query_response_error = query_response_error_reg;
 assign query_response_mac = query_response_mac_reg;
 
 assign write_request_ready = write_request_ready_reg;
-
 lfsr #(
     .LFSR_WIDTH(32),
     .LFSR_POLY(32'h4c11db7),
@@ -109,7 +106,6 @@ rd_hash (
     .data_out(),
     .state_out(query_request_hash)
 );
-
 lfsr #(
     .LFSR_WIDTH(32),
     .LFSR_POLY(32'h4c11db7),
@@ -125,9 +121,7 @@ wr_hash (
     .data_out(),
     .state_out(write_request_hash)
 );
-
 integer i;
-
 initial begin
     for (i = 0; i < 2**CACHE_ADDR_WIDTH; i = i + 1) begin
         valid_mem[i] = 1'b0;
